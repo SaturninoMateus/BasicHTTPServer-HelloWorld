@@ -1,3 +1,4 @@
+use std::io::Read;
 use std::net::TcpListener;
 
 pub struct Server {
@@ -16,7 +17,17 @@ impl Server {
         println!("Listening on {}", self.addr);
         // method. self takes the ownership of the struct, so the struct will b destroyed after the method execution
 
-        let listener = TcpListener::bind(&self.addr).unwrap(); //unwrap returns the value or panics
+        //unwrap returns the value or panics
+        //the address could already b in use, so this error is unrecoverable
+        let listener = TcpListener::bind(&self.addr).unwrap();
+        loop {
+            match listener.accept(){
+                Ok((stream, addr)) => {
+                    // stream.read();
+                }
+                Err(e) => println!("Filed to establish a connection: {}", e)
+            }
 
+        }
     }
 }
